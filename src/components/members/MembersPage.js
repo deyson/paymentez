@@ -7,6 +7,7 @@ class Members extends PureComponent {
 
     this.state = {
       messages: '',
+      messageButton: 'Guardar',
     };
   }
   componentWillMount() {
@@ -17,6 +18,7 @@ class Members extends PureComponent {
     const myCard = window.$('#my-card');
     this.setState({
       messages: '',
+      messageButton: 'Guardar',
     });
     const cardToSave = myCard.PaymentezForm('card');
     if (cardToSave == null) {
@@ -24,8 +26,9 @@ class Members extends PureComponent {
         messages: 'Invalid Card Data',
       });
     } else {
-      // submitButton.attr('disabled', 'disabled').text('Card Processing...');
-
+      this.setState({
+        messageButton: 'Card Processing...',
+      });
 
       const uid = 'uid1234';
       const email = 'dev@paymentez.com';
@@ -68,11 +71,15 @@ class Members extends PureComponent {
         messages: message,
       });
     }
+    this.setState({
+      messageButton: 'Guardar',
+    });
   }
 
   errorHandler = (err) => {
     this.setState({
       messages: err.error.type,
+      messageButton: 'Guardar',
     });
   }
 
@@ -81,7 +88,7 @@ class Members extends PureComponent {
       <div className="panel">
         <form id="add-card-form">
           <div className="paymentez-form" id="my-card" data-capture-name="true" />
-          <button className="btn" onClick={this.save}>Guardar</button>
+          <button className="btn" onClick={this.save}> { this.state.messageButton }</button>
           <br />
           <div>
             { this.state.messages }
